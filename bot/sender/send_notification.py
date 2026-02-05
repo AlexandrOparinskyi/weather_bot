@@ -93,7 +93,6 @@ async def should_send_notification_now(user: User) -> bool:
 
         # Ищем расписание на сегодня
         for schedule in user.user_schedules:
-            logging.info(schedule.notification_time)
             if (schedule.day_of_week == current_weekday and
                     schedule.is_enabled and
                     schedule.notification_time == current_time):
