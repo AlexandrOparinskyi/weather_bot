@@ -1,5 +1,6 @@
 import asyncio
 import logging
+from math import lgamma
 
 from aiogram import Bot
 from aiogram.types import Message, CallbackQuery
@@ -35,9 +36,13 @@ async def confirm_msg_button(callback: CallbackQuery,
             await asyncio.sleep(1)
         if user.id == config.tg_bot.admin_id:
             continue
-        await bot.send_message(user.id,
-                               msg)
-        counter += 1
+        try:
+            await bot.send_message(user.id,
+                                   msg)
+            counter += 1
+        except Exception as err:
+            logger.debug(f"User {user.id} id blocked: {err}")
+            continue
 
     await callback.answer(f"Разослано {counter} пользователям")
     await callback.message.delete()
