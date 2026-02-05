@@ -97,7 +97,6 @@ async def should_send_notification_now(user: User) -> bool:
             if (schedule.day_of_week == current_weekday and
                     schedule.is_enabled and
                     schedule.notification_time == current_time):
-                logging.info("true")
                 return True
 
         return False
@@ -115,7 +114,6 @@ async def check_and_send_notifications(bot: Bot):
     users = await get_all_users()  # Получаем всех пользователей
     sent_count = 0
     for i, user in enumerate(users):
-        logging.info(f"Пользователь {i}")
         if i % 20 == 0:
             time.sleep(1)
         if await should_send_notification_now(user):
