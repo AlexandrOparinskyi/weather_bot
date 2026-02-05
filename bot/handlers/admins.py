@@ -1,8 +1,9 @@
 from aiogram import Router
 from aiogram.filters import Command
 from aiogram.types import Message
-from aiogram_dialog import DialogManager
+from aiogram_dialog import DialogManager, StartMode
 
+from bot.states import AdminState
 from config import Config, load_config
 
 admin_router = Router()
@@ -15,3 +16,5 @@ async def send_mailing(message: Message,
     if message.from_user.id != config.tg_bot.admin_id:
         return
 
+    await dialog_manager.start(state=AdminState.enter_message,
+                               mode=StartMode.RESET_STACK)

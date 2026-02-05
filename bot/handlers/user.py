@@ -1,4 +1,5 @@
 import asyncio
+import logging
 
 from aiogram import Router, Bot
 from aiogram.enums import ParseMode, ChatAction
@@ -14,6 +15,7 @@ from bot.utils import (get_user_by_id,
                        create_user_schedule)
 
 user_router = Router()
+logger = logging.getLogger(__name__)
 
 
 @user_router.message(CommandStart())
@@ -66,14 +68,29 @@ async def get_weather(message: Message,
         typing_task.cancel()
         await status_msg.delete()
         try:
-            await message.answer(text,
-                                 parse_mode=ParseMode.HTML)
-            return
+            if "<b>" in text:
+                logger.debug(f"Recommendation send with HTML parse mode")
+                await message.answer(text,
+                                     parse_mode=ParseMode.HTML)
+                return
+            elif "**" in text:
+                logger.debug(f"Recommendation send with MARKDOWN parse mode")
+                await message.answer(text,
+                                     parse_mode=ParseMode.MARKDOWN)
+                return
+            else:
+                logger.debug(f"Recommendation send without parse mode")
+                await message.answer(text,
+                                     parse_mode=None)
+                return
         except Exception as err:
+            logger.info(f"Parse mode is None: {err}")
             await message.answer(text,
                                  parse_mode=None)
             return
     except Exception as err:
+        logger.error(f"Error send recommendation to "
+                     f"user {message.from_user.id}: {err}")
         await message.answer("Ошибка получения данных")
         return
 

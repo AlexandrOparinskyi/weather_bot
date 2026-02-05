@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Optional
 
-from sqlalchemy import func, DateTime
+from sqlalchemy import func, DateTime, BigInteger
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .base import Base
@@ -10,7 +10,7 @@ from .base import Base
 class User(Base):
     __tablename__ = 'users'
 
-    id: Mapped[int] = mapped_column(primary_key=True, index=True)
+    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, index=True)
     username: Mapped[Optional[str]] = mapped_column(nullable=True)
     first_name: Mapped[str]
     last_name: Mapped[Optional[str]] = mapped_column(nullable=True)

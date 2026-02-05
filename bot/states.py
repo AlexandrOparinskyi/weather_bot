@@ -14,3 +14,8 @@ class SettingsState(StatesGroup):
     time_day_setting = State()
     time_full_setting = State()
     location_setting = State()
+
+
+class AdminState(StatesGroup):
+    enter_message = State()
+    confirm_message = State()

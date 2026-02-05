@@ -41,13 +41,27 @@ async def send_scheduled_notification(bot: Bot, user: User) -> bool:
         message_text = await get_recommendation_message(
             user.user_settings.city
         )
+        message_text = message_text.replace("###", "***")
 
         # Отправляем сообщение
-        await bot.send_message(
-            chat_id=user.id,
-            text=message_text,
-            parse_mode=ParseMode.MARKDOWN
-        )
+        if "<b>" in message_text:
+            await bot.send_message(
+                chat_id=user.id,
+                text=message_text,
+                parse_mode=ParseMode.HTML
+            )
+        elif "*" in message_text:
+            await bot.send_message(
+                chat_id=user.id,
+                text=message_text,
+                parse_mode=ParseMode.MARKDOWN
+            )
+        else:
+            await bot.send_message(
+                chat_id=user.id,
+                text=message_text,
+                parse_mode=None
+            )
 
         return True
 
