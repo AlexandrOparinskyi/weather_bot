@@ -1,0 +1,444 @@
+--
+-- PostgreSQL database dump
+--
+
+\restrict AhhOObeEsndwLbZ856gr9U59NexxneKvR7FZe9l8HBqcYIeee7OfHRCLwETruJg
+
+-- Dumped from database version 16.10 (Debian 16.10-1.pgdg13+1)
+-- Dumped by pg_dump version 16.10 (Debian 16.10-1.pgdg13+1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: weekday; Type: TYPE; Schema: public; Owner: postgres
+--
+
+CREATE TYPE public.weekday AS ENUM (
+    'MONDAY',
+    'TUESDAY',
+    'WEDNESDAY',
+    'THURSDAY',
+    'FRIDAY',
+    'SATURDAY',
+    'SUNDAY'
+);
+
+
+ALTER TYPE public.weekday OWNER TO postgres;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: alembic_version; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.alembic_version (
+    version_num character varying(32) NOT NULL
+);
+
+
+ALTER TABLE public.alembic_version OWNER TO postgres;
+
+--
+-- Name: user_schedules; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.user_schedules (
+    user_id integer NOT NULL,
+    day_of_week public.weekday NOT NULL,
+    notification_time time without time zone NOT NULL,
+    is_enabled boolean NOT NULL,
+    id integer NOT NULL
+);
+
+
+ALTER TABLE public.user_schedules OWNER TO postgres;
+
+--
+-- Name: user_schedules_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.user_schedules_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.user_schedules_id_seq OWNER TO postgres;
+
+--
+-- Name: user_schedules_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.user_schedules_id_seq OWNED BY public.user_schedules.id;
+
+
+--
+-- Name: user_settings; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.user_settings (
+    user_id integer NOT NULL,
+    city character varying,
+    timezone character varying,
+    notifications_enabled boolean NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    id integer NOT NULL
+);
+
+
+ALTER TABLE public.user_settings OWNER TO postgres;
+
+--
+-- Name: user_settings_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.user_settings_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.user_settings_id_seq OWNER TO postgres;
+
+--
+-- Name: user_settings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.user_settings_id_seq OWNED BY public.user_settings.id;
+
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.users (
+    id integer NOT NULL,
+    username character varying,
+    first_name character varying NOT NULL,
+    last_name character varying,
+    is_banned boolean NOT NULL,
+    created_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.users OWNER TO postgres;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.users_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.users_id_seq OWNER TO postgres;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
+
+
+--
+-- Name: user_schedules id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_schedules ALTER COLUMN id SET DEFAULT nextval('public.user_schedules_id_seq'::regclass);
+
+
+--
+-- Name: user_settings id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_settings ALTER COLUMN id SET DEFAULT nextval('public.user_settings_id_seq'::regclass);
+
+
+--
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
+
+
+--
+-- Data for Name: alembic_version; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.alembic_version (version_num) FROM stdin;
+1c7401f9fc0d
+\.
+
+
+--
+-- Data for Name: user_schedules; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.user_schedules (user_id, day_of_week, notification_time, is_enabled, id) FROM stdin;
+1476489528	MONDAY	07:00:00	t	78
+1476489528	TUESDAY	07:00:00	t	79
+1476489528	WEDNESDAY	07:00:00	t	80
+1476489528	THURSDAY	07:00:00	t	81
+984619839	THURSDAY	08:00:00	t	4
+984619839	MONDAY	08:00:00	f	1
+984619839	TUESDAY	08:00:00	f	2
+1476489528	FRIDAY	07:00:00	t	82
+984619839	FRIDAY	08:00:00	f	5
+1476489528	SATURDAY	07:00:00	f	83
+1476489528	SUNDAY	07:00:00	f	84
+442379946	MONDAY	08:00:00	t	85
+984619839	WEDNESDAY	08:00:00	f	3
+984619839	SATURDAY	08:00:00	f	6
+984619839	SUNDAY	08:00:00	f	7
+585895876	MONDAY	08:00:00	t	15
+585895876	TUESDAY	08:00:00	t	16
+585895876	WEDNESDAY	08:00:00	t	17
+585895876	THURSDAY	08:00:00	t	18
+585895876	FRIDAY	08:00:00	t	19
+585895876	SATURDAY	08:00:00	t	20
+585895876	SUNDAY	08:00:00	t	21
+442379946	TUESDAY	08:00:00	t	86
+442379946	WEDNESDAY	08:00:00	t	87
+442379946	THURSDAY	08:00:00	t	88
+442379946	FRIDAY	08:00:00	t	89
+442379946	SUNDAY	08:00:00	t	91
+442379946	SATURDAY	15:05:00	t	90
+938700549	FRIDAY	08:00:00	t	26
+938700549	MONDAY	08:00:00	t	22
+938700549	WEDNESDAY	08:00:00	t	24
+938700549	TUESDAY	08:00:00	t	23
+938700549	THURSDAY	08:00:00	t	25
+938700549	SATURDAY	08:00:00	t	27
+938700549	SUNDAY	08:00:00	t	28
+331625632	MONDAY	08:00:00	t	36
+331625632	TUESDAY	08:00:00	t	37
+331625632	WEDNESDAY	08:00:00	t	38
+331625632	THURSDAY	08:00:00	t	39
+331625632	FRIDAY	08:00:00	t	40
+331625632	SATURDAY	08:00:00	t	41
+331625632	SUNDAY	08:00:00	t	42
+56879643	MONDAY	08:00:00	t	43
+56879643	TUESDAY	08:00:00	t	44
+56879643	WEDNESDAY	08:00:00	t	45
+56879643	THURSDAY	08:00:00	t	46
+56879643	FRIDAY	08:00:00	t	47
+56879643	SATURDAY	08:00:00	t	48
+56879643	SUNDAY	08:00:00	t	49
+399982871	MONDAY	09:00:00	t	57
+399982871	TUESDAY	09:00:00	t	58
+399982871	WEDNESDAY	09:00:00	t	59
+399982871	THURSDAY	09:00:00	t	60
+399982871	FRIDAY	09:00:00	t	61
+399982871	SATURDAY	09:00:00	t	62
+399982871	SUNDAY	09:00:00	t	63
+208915179	MONDAY	08:00:00	t	64
+208915179	TUESDAY	08:00:00	t	65
+208915179	WEDNESDAY	08:00:00	t	66
+208915179	THURSDAY	08:00:00	t	67
+208915179	FRIDAY	08:00:00	t	68
+208915179	SATURDAY	08:00:00	t	69
+208915179	SUNDAY	08:00:00	t	70
+108863043	MONDAY	07:00:00	t	71
+108863043	TUESDAY	07:00:00	t	72
+108863043	WEDNESDAY	07:00:00	t	73
+108863043	THURSDAY	07:00:00	t	74
+108863043	FRIDAY	07:00:00	t	75
+108863043	SATURDAY	07:00:00	t	76
+108863043	SUNDAY	07:00:00	t	77
+442699415	MONDAY	06:30:00	t	50
+442699415	TUESDAY	06:30:00	t	51
+442699415	WEDNESDAY	06:30:00	t	52
+442699415	THURSDAY	06:30:00	t	53
+442699415	FRIDAY	06:30:00	t	54
+442699415	SATURDAY	06:30:00	t	55
+442699415	SUNDAY	06:30:00	t	56
+424306502	MONDAY	07:00:00	t	92
+424306502	TUESDAY	07:00:00	t	93
+424306502	WEDNESDAY	07:00:00	t	94
+424306502	THURSDAY	07:00:00	t	95
+424306502	FRIDAY	07:00:00	t	96
+424306502	SUNDAY	07:00:00	f	98
+141824457	MONDAY	08:00:00	t	99
+141824457	TUESDAY	08:00:00	t	100
+141824457	WEDNESDAY	08:00:00	t	101
+141824457	THURSDAY	08:00:00	t	102
+141824457	FRIDAY	08:00:00	t	103
+141824457	SATURDAY	08:00:00	t	104
+141824457	SUNDAY	08:00:00	t	105
+287626618	MONDAY	06:00:00	t	29
+287626618	TUESDAY	06:00:00	t	30
+287626618	WEDNESDAY	06:00:00	t	31
+287626618	THURSDAY	06:00:00	t	32
+287626618	FRIDAY	06:00:00	t	33
+287626618	SATURDAY	06:00:00	t	34
+287626618	SUNDAY	06:00:00	t	35
+424306502	SATURDAY	07:00:00	f	97
+\.
+
+
+--
+-- Data for Name: user_settings; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.user_settings (user_id, city, timezone, notifications_enabled, created_at, updated_at, id) FROM stdin;
+984619839	Москва	UTC+3	t	2025-09-25 19:29:00.724566	2025-09-25 19:29:00.724566	1
+585895876	Москва	UTC+3	t	2025-09-25 19:32:09.211884	2025-09-25 19:32:09.211884	3
+938700549	Москва	UTC+3	t	2025-09-25 19:33:11.921466	2025-09-25 19:33:11.921466	4
+331625632	Москва	UTC+3	t	2025-09-25 19:38:54.88433	2025-09-25 19:38:54.88433	6
+56879643	Москва	UTC+3	t	2025-09-25 20:59:41.135669	2025-09-25 20:59:41.135669	7
+442699415	Москва	UTC+3	t	2025-09-26 02:10:02.845892	2025-09-26 02:10:02.845892	8
+399982871	Москва	UTC+3	t	2025-09-26 04:40:07.656388	2025-09-26 04:40:07.656388	9
+208915179	Москва	UTC+3	t	2025-09-26 07:20:35.562592	2025-09-26 07:20:35.562592	10
+108863043	Москва	UTC+3	t	2025-09-28 15:08:46.993651	2025-09-28 15:08:46.993651	11
+1476489528	Москва	UTC+3	t	2025-09-30 11:24:28.225759	2025-09-30 11:24:28.225759	12
+442379946	Москва	UTC+3	t	2025-10-04 12:03:29.310431	2025-10-04 12:03:29.310431	13
+141824457	Москва	UTC+3	t	2025-10-17 03:34:08.205627	2025-10-17 03:34:08.205627	15
+287626618	Париж	\N	t	2025-09-25 19:36:48.696971	2025-11-01 03:17:38.338974	5
+424306502	Москва	UTC+3	t	2025-10-04 12:17:24.386616	2025-12-26 05:12:17.484688	14
+\.
+
+
+--
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.users (id, username, first_name, last_name, is_banned, created_at) FROM stdin;
+984619839	\N	Викитория	\N	f	2025-09-25 19:29:00.721949
+585895876	elpablo98	Павел	\N	f	2025-09-25 19:32:09.210338
+938700549	Oparinskaya_Tatyana	Татьяна	Опаринская	f	2025-09-25 19:33:11.919877
+287626618	nataliauchelkina	Natalia	Uchelkina	f	2025-09-25 19:36:48.695548
+331625632	BorisovaIren	Irina Borisova	\N	f	2025-09-25 19:38:54.882982
+56879643	Varywlas	Varvara	Vlasenko	f	2025-09-25 20:59:41.134183
+442699415	AnastasiaShvydun	Anastasia	\N	f	2025-09-26 02:10:02.844115
+399982871	gonchari98	Анна	Гончарова	f	2025-09-26 04:40:07.655058
+208915179	Artistkalyatina	Евгения	\N	f	2025-09-26 07:20:35.561307
+108863043	Lysovv	Valera	Lysov	f	2025-09-28 15:08:46.980558
+1476489528	evgeniaevgenievnagalkina	Евгения	Галкина	f	2025-09-30 11:24:28.210976
+442379946	khorevp	Pavel	Khorev	f	2025-10-04 12:03:29.305904
+424306502	oparinskyi	Александр	Опаринский	f	2025-10-04 12:17:24.385179
+141824457	Tony_Jes	Anton	Larin	f	2025-10-17 03:34:08.199774
+\.
+
+
+--
+-- Name: user_schedules_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.user_schedules_id_seq', 105, true);
+
+
+--
+-- Name: user_settings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.user_settings_id_seq', 15, true);
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.users_id_seq', 1, false);
+
+
+--
+-- Name: alembic_version alembic_version_pkc; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.alembic_version
+    ADD CONSTRAINT alembic_version_pkc PRIMARY KEY (version_num);
+
+
+--
+-- Name: user_schedules unique_user_day; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_schedules
+    ADD CONSTRAINT unique_user_day UNIQUE (user_id, day_of_week);
+
+
+--
+-- Name: user_schedules user_schedules_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_schedules
+    ADD CONSTRAINT user_schedules_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: user_settings user_settings_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_settings
+    ADD CONSTRAINT user_settings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: user_settings user_settings_user_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_settings
+    ADD CONSTRAINT user_settings_user_id_key UNIQUE (user_id);
+
+
+--
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: ix_users_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX ix_users_id ON public.users USING btree (id);
+
+
+--
+-- Name: user_schedules user_schedules_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_schedules
+    ADD CONSTRAINT user_schedules_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: user_settings user_settings_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_settings
+    ADD CONSTRAINT user_settings_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
+\unrestrict AhhOObeEsndwLbZ856gr9U59NexxneKvR7FZe9l8HBqcYIeee7OfHRCLwETruJg
+

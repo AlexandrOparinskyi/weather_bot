@@ -37,7 +37,7 @@ async def app() -> None:
     await asyncio.gather(bot(
         token=config.tg_bot.token,
         hub=translator_hub,
-        #storage=storage,
+        storage=storage,
     ))
 
 
